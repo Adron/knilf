@@ -3,4 +3,5 @@ confluent-kafka[schema-registry]==2.3.0
 avro-python3==1.10.2
 pandas==2.1.4
 python-dotenv==1.0.0
-fastavro==1.9.2 
+fastavro==1.9.2
+requests==2.31.0 
