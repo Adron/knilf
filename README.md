@@ -63,9 +63,7 @@ KAFKA_TOPIC='netflix_browsing_activity'
 python netflix_producer.py
 ```
 
-2. Use the Flink SQL queries in the `sample_queries` directory to analyze the data:
-   - `flink_query_avg_duration.sql`: Calculate average watch duration per movie
-   - `flink_query_daily_engagement.sql`: Analyze daily viewing patterns
+2. [Executing sample queries](sample_queries/executing-sample-queries.md) - Learn how to run and monitor the Flink SQL queries
 
 ## Data Flow
 

@@ -79,7 +79,7 @@ def main():
     for _, row in df.iterrows():
         record = {
             'user_id': str(row['user_id']),
-            'view_timestamp': str(row['datetime']),
+            'timestamp': str(row['datetime']),
             'activity_type': 'view',  # Since this is viewing data
             'title_id': str(row['movie_id']),
             'duration': int(float(row['duration'])) if pd.notna(row['duration']) else None,
