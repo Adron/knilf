@@ -78,17 +78,17 @@ def main():
     # Stream each record
     for _, row in df.iterrows():
         record = {
-            'user_id': str(row['user_id']),
-            'timestamp': str(row['datetime']),
-            'activity_type': 'view',  # Since this is viewing data
-            'title_id': str(row['movie_id']),
-            'duration': int(float(row['duration'])) if pd.notna(row['duration']) else None,
-            'device_type': None,  # Not available in the dataset
-            'location': None,  # Not available in the dataset
-            'title': str(row['title']),
-            'genres': str(row['genres']),
-            'release_date': str(row['release_date']),
-            'movie_id': str(row['movie_id'])
+            'USER_ID': str(row['user_id']),
+            'TIMESTAMP': str(row['datetime']),
+            'ACTIVITY_TYPE': 'view',  # Since this is viewing data
+            'TITLE_ID': str(row['movie_id']),
+            'DURATION': int(float(row['duration'])) if pd.notna(row['duration']) else None,
+            'DEVICE_TYPE': None,  # Not available in the dataset
+            'LOCATION': None,  # Not available in the dataset
+            'TITLE': str(row['title']),
+            'GENRES': str(row['genres']),
+            'RELEASE_DATE': str(row['release_date']),
+            'MOVIE_ID': str(row['movie_id'])
         }
         
         try:

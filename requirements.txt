@@ -4,4 +4,5 @@ avro-python3==1.10.2
 pandas==2.1.4
 python-dotenv==1.0.0
 fastavro==1.9.2
-requests==2.31.0 
+requests==2.31.0
+ksqldb-client==0.3.0 
