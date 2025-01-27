@@ -13,10 +13,6 @@ CREATE TABLE netflix_activity (
     movie_id STRING,
     event_timestamp AS TO_TIMESTAMP(event_time),
     WATERMARK FOR event_timestamp AS event_timestamp - INTERVAL '5' MINUTES
-) WITH (
-    'connector' = 'kafka',
-    'topic' = 'netflix_browsing_activity',
-    'format' = 'avro'
 );
 
 ------------------ Statement 2: Create target table ------------------
@@ -29,11 +25,6 @@ CREATE TABLE movie_duration_metrics (
     release_date STRING,
     update_time TIMESTAMP(3),
     PRIMARY KEY (title) NOT ENFORCED
-) WITH (
-    'connector' = 'upsert-kafka',
-    'topic' = 'netflix_movie_duration_metrics',
-    'key.format' = 'json',
-    'value.format' = 'json'
 );
 
 ------------------ Statement 3: Insert data ------------------
