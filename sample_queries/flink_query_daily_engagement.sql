@@ -16,14 +16,7 @@ CREATE TABLE netflix_activity (
 ) WITH (
     'connector' = 'kafka',
     'topic' = 'netflix_browsing_activity',
-    'properties.bootstrap.servers' = 'BOOTSTRAP_SERVERS',
-    'properties.security.protocol' = 'SASL_SSL',
-    'properties.sasl.mechanisms' = 'PLAIN',
-    'properties.sasl.username' = 'API_KEY',
-    'properties.sasl.password' = 'API_SECRET',
-    'format' = 'avro-confluent',
-    'avro-confluent.schema-registry.url' = 'SCHEMA_REGISTRY_URL',
-    'avro-confluent.schema-registry.subject' = 'netflix_browsing_activity-value'
+    'format' = 'avro'
 );
 
 ------------------ Statement 2: Create target table ------------------
@@ -41,11 +34,6 @@ CREATE TABLE daily_movie_engagement (
 ) WITH (
     'connector' = 'upsert-kafka',
     'topic' = 'netflix_daily_movie_engagement',
-    'properties.bootstrap.servers' = 'BOOTSTRAP_SERVERS',
-    'properties.security.protocol' = 'SASL_SSL',
-    'properties.sasl.mechanisms' = 'PLAIN',
-    'properties.sasl.username' = 'API_KEY',
-    'properties.sasl.password' = 'API_SECRET',
     'key.format' = 'json',
     'value.format' = 'json'
 );
