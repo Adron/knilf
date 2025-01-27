@@ -32,7 +32,7 @@ CREATE TABLE daily_movie_engagement (
 ------------------ Statement 3: Insert data ------------------
 INSERT INTO daily_movie_engagement
 SELECT
-    DATE(event_timestamp) as view_date,
+    CAST(event_timestamp AS DATE) as view_date,
     title,
     COUNT(*) as daily_views,
     SUM(duration) as total_watch_time,
@@ -44,5 +44,5 @@ SELECT
 FROM netflix_activity
 WHERE duration IS NOT NULL
 GROUP BY 
-    DATE(event_timestamp),
+    CAST(event_timestamp AS DATE),
     title; 

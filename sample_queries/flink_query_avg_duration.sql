@@ -39,4 +39,4 @@ SELECT
     CURRENT_TIMESTAMP as update_time
 FROM netflix_activity
 WHERE duration IS NOT NULL
-GROUP BY title; 
+GROUP BY title;
