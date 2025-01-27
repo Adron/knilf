@@ -31,56 +31,64 @@ def replace_env_variables(query):
     return query_text
 
 def execute_query(cluster_id, api_key, api_secret, query):
-    """Execute a query using Confluent Cloud's REST API."""
-    base_url = f"https://api.confluent.cloud/ksql/v2/clusters/{cluster_id}"
+    """Execute a query using ksqlDB REST API."""
+    ksqldb_endpoint = os.getenv('KSQLDB_ENDPOINT')
+    if not ksqldb_endpoint:
+        raise ValueError("KSQLDB_ENDPOINT environment variable is not set")
+
     headers = {
-        "Content-Type": "application/json",
-        "Accept": "application/json"
+        "Content-Type": "application/vnd.ksql.v1+json",
+        "Accept": "application/vnd.ksql.v1+json"
     }
     
     # Create the query execution request
     data = {
-        "sql_string": query,
-        "properties": {
-            "auto.offset.reset": "earliest",
+        "ksql": query,
+        "streamsProperties": {
             "ksql.streams.auto.offset.reset": "earliest"
         }
     }
     
+    print(f"Making request to: {ksqldb_endpoint}")
+    print(f"Headers: {headers}")
+    print(f"Query: {query}")
+    
     # Execute the query
     response = requests.post(
-        f"{base_url}/ksql",
+        f"{ksqldb_endpoint}/ksql",
         headers=headers,
         auth=(api_key, api_secret),
         json=data
     )
     
+    print(f"Response Status: {response.status_code}")
     if response.status_code != 200:
-        print(f"Error executing query: {response.text}")
+        print(f"Error executing query (Status {response.status_code}):")
+        print(json.dumps(response.json(), indent=2))
         return False
     
-    print(f"Query executed successfully: {response.json()}")
+    print(f"Query executed successfully:")
+    print(json.dumps(response.json(), indent=2))
     return True
 
 def main():
     # Load environment variables
     load_dotenv()
     
-    # Get Confluent Cloud credentials
-    cluster_id = os.getenv('CONFLUENT_CLUSTER_ID')
-    api_key = os.getenv('CONFLUENT_API_KEY')
-    api_secret = os.getenv('CONFLUENT_API_SECRET')
+    # Get ksqlDB credentials
+    api_key = os.getenv('KSQLDB_API_KEY')
+    api_secret = os.getenv('KSQLDB_API_SECRET')
     
-    if not all([cluster_id, api_key, api_secret]):
-        raise ValueError("Missing required Confluent Cloud credentials")
+    if not all([api_key, api_secret]):
+        raise ValueError("Missing required ksqlDB credentials")
     
     # Get the directory containing the queries
     current_dir = Path(__file__).parent
     
     # Define query files
     query_files = [
-        current_dir / "flink_query_avg_duration.sql",
-        current_dir / "flink_query_daily_engagement.sql"
+        current_dir / "kafka_query_avg_duration.sql",
+        current_dir / "kafka_query_daily_engagement.sql"
     ]
     
     # Execute each query file
@@ -92,7 +100,7 @@ def main():
             query = replace_env_variables(query)
             
             # Execute query
-            success = execute_query(cluster_id, api_key, api_secret, query)
+            success = execute_query(None, api_key, api_secret, query)
             
             if success:
                 print(f"Successfully processed {query_file.name}")
